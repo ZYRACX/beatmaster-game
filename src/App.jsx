@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { CheckCircle2, XCircle, RotateCcw, Music, Timer, PlayCircle } from 'lucide-react';
 
-// 1. Updated Game Data with your tracks using your custom filename style
+// 1. Updated Game Data with your latest tracks (handling .mp3 extensions)
 const GAME_DATA = [
   {
     id: 1,
@@ -63,10 +63,65 @@ const GAME_DATA = [
     audioSrc: '/audio/fearless.mpeg',
     correctAnswer: 'Fearless - Taylor Swift',
     options: [
-      'Love Story - Lost Sky',
+      'Love Story - Taylor Swift',
       'You Belong With Me - Taylor Swift',
       'Mine - Taylor Swift',
       'Fearless - Taylor Swift'
+    ]
+  },
+  {
+    id: 7,
+    audioSrc: '/audio/save_your_tears.mp3',
+    correctAnswer: 'Save Your Tears - The Weeknd',
+    options: [
+      'Save Your Tears - The Weeknd',
+      'In Your Eyes - The Weeknd',
+      'Levitating - Dua Lipa',
+      'Positions - Ariana Grande'
+    ]
+  },
+  {
+    id: 8,
+    audioSrc: '/audio/the_nights.mp3',
+    correctAnswer: 'The Nights - Avicii',
+    options: [
+      'Wake Me Up - Avicii',
+      'The Days - Avicii',
+      'The Nights - Avicii',
+      'Heroes - Alesso'
+    ]
+  },
+  {
+    id: 9,
+    audioSrc: '/audio/mood.mp3',
+    correctAnswer: 'Mood - 24kGoldn ft. iann dior',
+    options: [
+      'Mood - 24kGoldn ft. iann dior',
+      'Lemonade - Internet Money',
+      'What You Know Bout Love - Pop Smoke',
+      'Rockstar - DaBaby'
+    ]
+  },
+  {
+    id: 10,
+    audioSrc: '/audio/something_just_like_this.mp3',
+    correctAnswer: 'Something Just Like This - The Chainsmokers & Coldplay',
+    options: [
+      'Closer - The Chainsmokers',
+      'Viva La Vida - Coldplay',
+      'Something Just Like This - The Chainsmokers & Coldplay',
+      'Stay - Zedd ft. Alessia Cara'
+    ]
+  },
+  {
+    id: 11,
+    audioSrc: '/audio/royalty.mp3',
+    correctAnswer: 'Royalty - Conor Maynard',
+    options: [
+      'Royalty - Conor Maynard',
+      'Kings & Queens - Ava Max',
+      'Animals - Maroon 5',
+      'Takeaway - The Chainsmokers'
     ]
   }
 ];
@@ -83,7 +138,7 @@ export default function MusicGuessingGame() {
   
   // Audio & Dynamic Timer State
   const [timeLeft, setTimeLeft] = useState(0);
-  const [duration, setDuration] = useState(0); // Tracks total length for the progress bar
+  const [duration, setDuration] = useState(0); 
   const audioRef = useRef(null);
 
   const currentSong = GAME_DATA[currentQuestion];
@@ -106,7 +161,6 @@ export default function MusicGuessingGame() {
     setSelectedOption(null);
     setIsCorrect(null);
 
-    // Reload the audio element to get fresh metadata for the next track
     if (audioRef.current) {
       audioRef.current.load();
     }
@@ -120,7 +174,6 @@ export default function MusicGuessingGame() {
     setTimeLeft(audioLength);
     setDuration(audioLength);
 
-    // Autoplay instantly now that duration tracking is set
     audioRef.current.play().catch(err => {
       console.log("Autoplay blocked or interrupted:", err);
     });
@@ -172,7 +225,7 @@ export default function MusicGuessingGame() {
 
   // Move to next track
   const handleNext = () => {
-    setDuration(0); // Reset base tracking scale
+    setDuration(0); 
     if (currentQuestion < GAME_DATA.length - 1) {
       setCurrentQuestion(prev => prev + 1);
     } else {
